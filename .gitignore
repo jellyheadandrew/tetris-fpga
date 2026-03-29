@@ -1,0 +1,12 @@
+# Vivado artifacts
+build/
+xsim.dir/
+.Xil/
+*.jou
+*.log
+*.pb
+*.wdb
+*.bit
+
+# Simulation output
+frame.ppm
