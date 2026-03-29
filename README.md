@@ -2,7 +2,7 @@
 
 A fully hardware-implemented Tetris game in SystemVerilog. No CPU. No firmware. Pure RTL.
 
-> Built using the [art](https://github.com/aer-org/art) harness — a 4-stage autonomous AI pipeline that writes HDL, generates tests, runs Vivado, and reviews synthesis in a self-healing loop.
+> Built using [**Art**](https://github.com/aer-org/art) — a 4-stage autonomous AI pipeline that writes HDL, generates tests, runs Vivado, and reviews synthesis in a self-healing loop.
 
 **Target:** Nexys A7-100T (Xilinx Artix-7 XC7A100T-1CSG324C) | **Clock:** 100 MHz single domain | **Toolchain:** Vivado 2025.2
 
