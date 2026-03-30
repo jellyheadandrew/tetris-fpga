@@ -64,15 +64,20 @@ tetris_top ── Top-level port mapping
 ![Vivado Elaborated Design](assets/vivado-schematic.png)
 ![Vivado Synthesis](assets/vivado-synthesis.png)
 
+## Known Issues
+
+- **7-segment display mapping** — Segments A and G are swapped in `seven_seg_driver.sv`, causing incorrect digit rendering on the physical board.
+
 ## Building
 
 Requires Vivado 2025.2 with Artix-7 support.
 
 ```bash
-make synth    # Run synthesis + place & route
-make sim      # Run simulation testbench
-make program  # Program the Nexys A7 board
+make xsim                              # Run simulation testbench
+vivado -mode batch -source synth.tcl   # Run synthesis + place & route
 ```
+
+`program.sh` is the script used to flash the board at the competition venue. It depends on a Docker image prepared for the ART pipeline and will not work standalone.
 
 ## PC Display
 
@@ -87,7 +92,7 @@ python display.py /dev/ttyUSB1
 | Metric | Value |
 |--------|-------|
 | RTL modules | 11 |
-| Lines of SystemVerilog | ~1700 |
+| Lines of SystemVerilog | ~3100 (incl. testbench) |
 | Piece bitmasks | 28 |
 | UART packet size | 216 bytes |
 | Sound effects | 7 |
