@@ -1,5 +1,7 @@
 # FPGA Tetris
 
+🏆 **3rd Place — Ralphton Seoul (2026-03-29)**
+
 A fully hardware-implemented Tetris game in SystemVerilog. No CPU. No firmware. Pure RTL.
 
 > Built using [**ART**](https://github.com/aer-org/art) — a 4-stage autonomous AI pipeline that writes HDL, generates tests, runs Vivado, and reviews synthesis in a self-healing loop.
