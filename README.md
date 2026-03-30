@@ -2,9 +2,28 @@
 
 A fully hardware-implemented Tetris game in SystemVerilog. No CPU. No firmware. Pure RTL.
 
-> Built using [**Art**](https://github.com/aer-org/art) — a 4-stage autonomous AI pipeline that writes HDL, generates tests, runs Vivado, and reviews synthesis in a self-healing loop.
+> Built using [**ART**](https://github.com/aer-org/art) — a 4-stage autonomous AI pipeline that writes HDL, generates tests, runs Vivado, and reviews synthesis in a self-healing loop.
 
 **Target:** Nexys A7-100T (Xilinx Artix-7 XC7A100T-1CSG324C) | **Clock:** 100 MHz single domain | **Toolchain:** Vivado 2025.2
+
+## How It Was Built — [ART](https://github.com/aer-org/art) Pipeline
+
+This project was developed using [**ART**](https://github.com/aer-org/art), an autonomous AI agent pipeline that iterates through build-test-synthesize-review cycles with self-healing feedback loops.
+
+![ART Pipeline Editor](assets/pipeline-editor.png)
+
+**Pipeline stages:**
+
+| Stage | Type | Role |
+|-------|------|------|
+| **Build** | Agent | Reads PLAN.md spec, implements/fixes SystemVerilog modules |
+| **Testbench** | Agent | Generates self-checking `tb_top.sv` with PPM frame rendering |
+| **Sim** | Command | Vivado xsim — compile, elaborate, simulate with pass/fail detection |
+| **Synth Review** | Agent | Analyzes Vivado timing/utilization reports, writes fix guidelines |
+
+Simulation failures route back to Build. Synthesis timing violations trigger targeted fixes via `synth_review.md` guidance. Agents communicate through file-based artifacts — no shared memory.
+
+**Example of self-healing:** the pipeline caught a runtime division in `audio_engine.sv` causing a -52ns timing violation (WNS). The review agent wrote fix guidelines, and the build agent replaced it with precomputed lookup tables.
 
 ## Features
 
@@ -30,25 +49,6 @@ tetris_top ── Top-level port mapping
 ├── led_controller ──── Larson scanner + fill meter
 └── audio_engine ────── PWM synth, 7 sound effects
 ```
-
-## How It Was Built — AerArt Pipeline
-
-This project was developed using [art](https://github.com/aer-org/art), an autonomous AI agent pipeline that iterates through build-test-synthesize-review cycles with self-healing feedback loops.
-
-![AerArt Pipeline Editor](assets/pipeline-editor.png)
-
-**Pipeline stages:**
-
-| Stage | Type | Role |
-|-------|------|------|
-| **Build** | Agent | Reads PLAN.md spec, implements/fixes SystemVerilog modules |
-| **Testbench** | Agent | Generates self-checking `tb_top.sv` with PPM frame rendering |
-| **Sim** | Command | Vivado xsim — compile, elaborate, simulate with pass/fail detection |
-| **Synth Review** | Agent | Analyzes Vivado timing/utilization reports, writes fix guidelines |
-
-Simulation failures route back to Build. Synthesis timing violations trigger targeted fixes via `synth_review.md` guidance. Agents communicate through file-based artifacts — no shared memory.
-
-**Example of self-healing:** the pipeline caught a runtime division in `audio_engine.sv` causing a -52ns timing violation (WNS). The review agent wrote fix guidelines, and the build agent replaced it with precomputed lookup tables.
 
 ## Synthesis Results
 
